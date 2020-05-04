@@ -16,7 +16,7 @@ In order to keep your python installation clean, it is recommended that all libr
 2. Install virtualenv by running ```python -m pip install virtualenv```
 3. Create a new virtual environment by running ```python -m virtualenv venv```
 4. To activate the environment, run ```venv\Scripts\activate```
-5. To activate the environment in Visual Studio Code, open the command palette (<kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>p</kbd>) and Select ```Python: Select Interpreter```, and select the virtual environment.
+5. To activate the environment in Visual Studio Code, open the command palette (<kbd>F1</kbd> ) and Select ```Python: Select Interpreter```, and select the virtual environment.
 6. Install required libraries by running ```python -m pip install -r requirements.txt```
 
 ### Requirements.txt
@@ -83,6 +83,8 @@ http://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
 
 ## Testing
 
+Tests are run using Nose testing framework. This will be installed when installing the requirements.txt file. To run the tests in VSCode, open the command palette(<kbd>F1</kbd>) and select ```Python: Run All Tests```. To run the tests from the terminal, run the command ```python -m nose```.
+
 ### Given-When-Then
 
 All tests should follow the pattern
@@ -104,6 +106,7 @@ All modules should have a corresponding test-file with the name test_{module_nam
 * Every method should have one or more unit-test associated with them to test their functionality.
 * All comparisons for testing purposes are done with the assert operation.
 * Unit tests should test all execution paths in a method.
+* The name of the test method starts with ``test_``
 
 ### Integration
 
