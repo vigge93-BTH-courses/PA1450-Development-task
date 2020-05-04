@@ -121,4 +121,4 @@ When a feature is completed a pull request is opened. Before merging, the new co
 
 ### Merging
 
-When a pull request is approved, the branched is merged into the master branch. Any conflicts that arise is the responsibility of the pair mergin into master.
+When a pull request is approved, the branched is merged by the original authors into the master branch. Any conflicts that arise is the responsibility of the pair merging into master.
