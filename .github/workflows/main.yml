@@ -13,7 +13,9 @@ jobs:
     steps:
       - name: Automatic requirement.txt for Python Projects
         uses: ryan-rozario/pipreqs-action@v1.0.1
-
+        with:
+           PROJECT_PATH: .
+           REQUIREMENT_PATH: requirements.txt
   # Linting
   linting:
     runs-on: ubuntu-latest
