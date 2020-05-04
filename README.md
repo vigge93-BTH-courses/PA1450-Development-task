@@ -2,11 +2,28 @@
 
 ## Pair programming
 
-All features should be programmed in pairs, the pairs are decided on when tasks are handed out, and it is up to the pair to decide the best strategy for collaboration.
-
+All features should be programmed in pairs, the pairs are decided on when tasks are handed out, and it is up to the pair to decide the best strategy for collaboration, but a good recommendation is the liveshare plugin to visual studio code.
 ## Python version
 
 All code is developed for python version 3.8.2
+
+## External libraries
+
+### Virtual environment
+
+In order to keep your python installation clean, it is recommended that all libraries are installed in a virtual environment. In order to setup your virtual environment, follow these steps:
+1. Open the command line and navigate to the repository folder.
+2. Install virtualenv by running ```python -m pip install virtualenv```
+3. Create a new virtual environment by running ```python -m virtualenv venv```
+4. To activate the environment, run ```venv\Scripts\activate```
+5. To activate the environment in Visual Studio Code, open the command palette (<kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>p</kbd>) and Select ```Python: Select Interpreter```, and select the virtual environment.
+6. Install required libraries by running ```python -m pip install -r requirements.txt```
+
+### Requirements.txt
+All externally installed libraries should be saved to the requirements.txt file. This is most easily done by running the command  
+```
+python -m pip freeze > requirements.txt
+```
 
 ## Style guidelines
 
@@ -17,6 +34,8 @@ https://www.python.org/dev/peps/pep-0008/
 It is recommended to use a linter to check that the code follows PEP8
 
 ### Docstrings
+
+Docstrings are not required for test files.
 
 #### Methods and functions
 
@@ -64,15 +83,27 @@ http://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
 
 ## Testing
 
+### Given-When-Then
+
+All tests should follow the pattern
+```python
+# Given
+"""Initialize variables and setup environment for the tests."""
+# When
+"""Perform the action(s)."""
+# Then
+"""Assert the results."""
+```
+
 ### Modules
 
-All modules should have a corresponding test-file with the name test_{module_name}.py.
+All modules should have a corresponding test-file with the name test_{module_name}.py placed in the tests folder.
 
 ### Methods
 
 * Every method should have one or more unit-test associated with them to test their functionality.
 * All comparisons for testing purposes are done with the assert operation.
-* Unit tests should test all paths in a method.
+* Unit tests should test all execution paths in a method.
 
 ### Integration
 
