@@ -20,7 +20,10 @@ jobs:
     steps:
     - name: python-nose-test
       uses: CyberZHG/github-action-python-test@0.0.1
+      with:
+        args: "--with-coverage"
     
     - name: Coveralls Python
       uses: AndreMiras/coveralls-python-action@v20200413
+  
   
