@@ -99,13 +99,13 @@ All tests should follow the pattern
 
 ### Modules
 
-All modules should have a corresponding test-file with the name test_{module_name}.py placed in the tests folder.
+All modules should have a corresponding test-file with the name test_{module_name}.py placed in the tests folder. Don't forget to import the module you are testing!
 
 ### Methods
 
 * Every method should have one or more unit-test associated with them to test their functionality.
 * All comparisons for testing purposes are done with the assert operation.
-* Unit tests should test all execution paths in a method.
+* Unit tests should test all execution paths in a method. This is measured with the coverage coverage.
 * The name of the test method starts with ``test_``
 
 ### Integration
