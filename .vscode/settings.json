@@ -1,11 +1,12 @@
 {
     "python.pythonPath": "venv\\Scripts\\python.exe",
     "python.testing.nosetestArgs": [
-        "tests"
+        "program\\tests",
+        "--with-coverage"
     ],
     "python.testing.nosetestsEnabled": true,
     "python.linting.pydocstyleEnabled": true,
     "python.linting.pycodestyleEnabled": true,
     "python.linting.enabled": true,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
 }
