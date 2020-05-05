@@ -13,11 +13,11 @@ All code is developed for python version 3.8.2
 
 In order to keep your python installation clean, it is recommended that all libraries are installed in a virtual environment. In order to setup your virtual environment, follow these steps:
 1. Open the command line and navigate to the repository folder.
-2. Install virtualenv by running ```python -m pip install virtualenv```
-3. Create a new virtual environment by running ```python -m virtualenv venv```
-4. To activate the environment, run ```venv\Scripts\activate```
-5. To activate the environment in Visual Studio Code, open the command palette (<kbd>F1</kbd> ) and Select ```Python: Select Interpreter```, and select the virtual environment.
-6. Install required libraries by running ```python -m pip install -r requirements.txt```
+2. Install virtualenv by running `python -m pip install virtualenv`
+3. Create a new virtual environment by running `python -m virtualenv venv`
+4. To activate the environment, run `venv\Scripts\activate`
+5. To activate the environment in Visual Studio Code, open the command palette (<kbd>F1</kbd> ) and Select `Python: Select Interpreter`, and select the virtual environment.
+6. Install required libraries by running `python -m pip install -r requirements.txt`
 
 ### Requirements.txt
 All externally installed libraries should be saved to the requirements.txt file. This is most easily done by running the command  
@@ -83,7 +83,7 @@ http://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
 
 ## Testing
 
-Tests are run using Nose testing framework. This will be installed when installing the requirements.txt file. To run the tests in VSCode, open the command palette(<kbd>F1</kbd>) and select ```Python: Run All Tests```. To run the tests from the terminal, run the command ```python -m nose```.
+Tests are run using Nose testing framework. This will be installed when installing the requirements.txt file. To run the tests in VSCode, open the command palette(<kbd>F1</kbd>) and select `Python: Run All Tests`. To run the tests from the terminal, run the command `python -m nose`.
 
 ### Given-When-Then
 
@@ -106,7 +106,7 @@ All modules should have a corresponding test-file with the name test_{module_nam
 * Every method should have one or more unit-test associated with them to test their functionality.
 * All comparisons for testing purposes are done with the assert operation.
 * Unit tests should test all execution paths in a method. This is measured with the coverage coverage.
-* The name of the test method starts with ``test_``
+* The name of the test method starts with `test_`
 
 ### Integration
 
@@ -114,14 +114,38 @@ Every new feature should be tested for compatibility with the system as a whole.
 
 ## Git guidelines
 
+### Issues
+
+Every development task has a separate issue. In this issue you can see information such as:
+* Description: A detailed description of what needs to be done
+* Labels: Indicates the category of the issue
+* Milestone: Which milestone this development task counts towards
+* Linked pull request: The pull request created for this issue
+
+Each user story is broken down into several smaller development tasks, but the user story is still kept as an issue for future reference. Once all the development tasks for a user story are completed, the original user story should be closed. If you set up your pull requests correctly, this may be done automatically. More information about this is found below.
+
+#### Dependencies
+
+For dependencies we will use [Panorama](https://panorama-for-github.herokuapp.com/), which allows organization of issues as sub-issues. In Panorama, dependencies for an issue will be shown as sub-issues.
+
+### Project board
+
+In Github, under the tab "Projects", our project board can be found. Here is where all issues are tracked and marked as: To do, In progress, Review in progress, Review approved and Done. All issues that are created should be added to this project board and initialy set to "To do". The issue will then automatically move forwards during development and review if everything is setup correctly.
+
 ### Branches
 
-Each feature is developed on a separate branch based on the master branch.
+Each user story has a separate branch based on master. From this every new development task related to this user story has a separate branched based on the user story branch. Once all development tasks for a user story are merged into the user story branch, this branch is merged into master.
 
 ### Pull requests and code review
 
-When a feature is completed a pull request is opened. Before merging, the new code should be approved by someone outside the pair.
+#### Creating a branch
 
-### Merging
+When a new branch is created, a pull request should be opened into the branch that the new branch is based on. This pull request should be marked with "WIP" to indicate that it is not ready for review or merging. This pull request is linked with the issue it is trying to resolve through the "Linked issues" in the sidebar. Note that the pull request should not be tied directly to the project.
 
-When a pull request is approved, the branched is merged by the original authors into the master branch. Any conflicts that arise is the responsibility of the pair merging into master.
+#### Time to merge
+Once the development on the current branch is completed, remove "WIP" from the title to indicate that the feature is completed. Branches can be merged into user story branches without code review, but when merging into the master branch a code review is necessary. This should be done by someone outside the pair. Any conflicts that arise is the responsibility of the pair merging into master.  
+Once all conflicts are resolved, the code is reviewed as necessary and everyone is happy, it is time to merge...
+
+#### Merging
+
+When a pull request is approved, the branch is merged by the original authors. Within a user story the "Squash and merge" strategy should be employed. However, when merging into master, the normal "Merge pull request" strategy should be used.
