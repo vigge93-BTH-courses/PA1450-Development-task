@@ -10,9 +10,9 @@ def test_add():
 
     # When
     res1 = add(a, b)
-    res2 = add(a, c)
-    res3 = add(a, d)
-    res4 = add(b, d)
+    res2 = add(c, a)
+    res3 = add(d, a)
+    res4 = add(d, b)
     res5 = add(d, b)
 
     # Then
