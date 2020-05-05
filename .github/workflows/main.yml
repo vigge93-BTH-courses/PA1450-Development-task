@@ -21,4 +21,4 @@ jobs:
     - name: python-nose-test
       uses: CyberZHG/github-action-python-test@0.0.1
       with:
-        args: "program/tests"
+        args: "../../program/tests"
