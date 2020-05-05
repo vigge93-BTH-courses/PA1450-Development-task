@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: install coverage
-    run: |
-      pip install --upgrade pip
-      pip install coverage
+      run: |
+        pip install --upgrade pip
+        pip install coverage
       
     - name: python-nose-test
       uses: CyberZHG/github-action-python-test@0.0.1
