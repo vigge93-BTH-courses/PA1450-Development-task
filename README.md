@@ -143,7 +143,7 @@ Each user story has a separate branch based on master. From this every new devel
 When a new branch is created, a pull request should be opened into the branch that the new branch is based on. This pull request should be marked with "WIP" to indicate that it is not ready for review or merging. This pull request is linked with the issue it is trying to resolve through the "Linked issues" in the sidebar. Note that the pull request should not be tied directly to the project.
 
 #### Time to merge
-Once the development on the current branch is completed, remove "WIP" from the title to indicate that the feature is completed. Branches can be merged into user story branches without code review, but when merging into the master branch a code review is necessary. This should be done by someone outside the pair. Any conflicts that arise is the responsibility of the pair merging into master.  
+Once the development on the current branch is completed, remove "WIP" from the title to indicate that the feature is completed. Branches can be merged into user story branches without code review, but when merging into the master branch a code review is necessary. This should be done by everyone in the team, except the creator of the pull request. Any conflicts that arise are the responsibility of the pair merging into master.  
 Once all conflicts are resolved, the code is reviewed as necessary and everyone is happy, it is time to merge...
 
 #### Merging
