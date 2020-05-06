@@ -12,5 +12,12 @@ def setup_module():
 
 
 def test_index():
-    response = client.get('/')
-    assert response.data == b'Hello, world!'
+    # Given
+    expected = b'Hello, world!'
+    path = '/'
+
+    # When
+    response = client.get(path)
+
+    # Then
+    assert response.data == expected

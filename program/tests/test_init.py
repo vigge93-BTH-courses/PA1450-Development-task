@@ -12,9 +12,18 @@ def setup_module():
 
 
 def test_create_app():
-    assert not create_app().testing
-    assert create_app({'TESTING': True}).testing
-    assert isinstance(create_app(), flask.app.Flask)
+    # Given
+    test_config1 = None
+    test_config2 = {'TESTING': True}
+
+    # When
+    app1 = create_app(test_config1)
+    app2 = create_app(test_config2)
+
+    # Then
+    assert not app1.testing
+    assert app2.testing
+    assert isinstance(app1, flask.app.Flask)
 
 
 def test_hello_world():
