@@ -1,0 +1,17 @@
+{
+    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "python.testing.nosetestArgs": [
+        "program\\tests",
+        "--with-coverage",
+        "--cover-branches",
+        "--cover-min-percentage=90",
+        "--cover-inclusive",
+        "--cover-erase",
+        "--cover-html"
+    ],
+    "python.testing.nosetestsEnabled": true,
+    "python.linting.pydocstyleEnabled": true,
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.enabled": true,
+    "editor.formatOnSave": true
+}

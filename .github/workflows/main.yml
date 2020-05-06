@@ -11,13 +11,6 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-     - name: Python Style Checker
-       uses: andymckay/pycodestyle-action@0.1.3
+    - name: Python Style Checker
+      uses: andymckay/pycodestyle-action@0.1.3
 
-# Nose tests
-  tests:
-    runs-on: ubuntu-latest
-    steps:
-    - name: python-nose-test
-      uses: CyberZHG/github-action-python-test@0.0.1
-  
