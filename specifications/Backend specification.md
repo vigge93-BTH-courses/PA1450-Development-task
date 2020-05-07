@@ -46,11 +46,12 @@ All uploaded datafiles should follow the following format specification:
 * All files are presented in a csv-file with `;` as the separator and uses `.` for the decimal seperator.
 * The table should have the following layout:
    - The following should exist somewhere in the file:
-      | +                 | Enhet         |
+      | Enhet        |
+      | ------------ |
+      | Name of unit |
+
+      | Parameternamn     |
       | ----------------- |
-      | Name of unit      |
-      | +                 | Parameternamn |
-      | ----------------  |
       | Name of parameter |
     - The list of the main data should be formatted in the following way:
         | Datum                         | Tid (UTC)                     | Parameternamn                        | Other columns (Will be ignored) |
