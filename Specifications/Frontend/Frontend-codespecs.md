@@ -7,7 +7,7 @@ By hovering your coursor over the graph, a box containing the data point's data 
 
 By scrolling with your cursor wheel while hovering over, or by moving your fingers in oposite directions on the graph box, you're able to zoom in or out on the graph, and by dragging with a finger or clicking, holding and dragging around with a coursor over the graph you're able to pan over the graph while zoomed in.
 
-* for grahical specs, see [Website Specs file](Specifications/Frontend/Untitled Diagram (3).png " Website Specs file").
+* for grahical specs, see [Website Specs file](https://github.com/vigge93/PA1450-Development-task/blob/Specifications-Frontend/Specifications/Frontend/Untitled%20Diagram%20(3).png " Website Specs file").
 
 # Datafile
 
