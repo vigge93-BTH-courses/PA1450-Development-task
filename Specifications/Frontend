@@ -1,1 +1,38 @@
+#10: View and interact with the data through generated graphs on a web
+Description: "It should be possible to hover over data points in the graph to view information about the data point.
+It should be possible to zoom and pan in the graph."
 
+#11: It should be possible to alter selection of attributes, timeframes and other through the graphs presented
+Description:"It should be possible to select which attributes are displayed on the graph(e.g. temperature and downfall) 
+by checking checkboxes.
+It should be possible to change the timeframe of which the data is presented using a calender selection...)"
+
+#12: Visualize and analyze Karlskrona's weather data
+Description: "Basic functionality: Get one type of data and present it in a graph on a webpage. No filters or interactivity."
+
+#13: Select a time interval between two days and have the data between those two days displayed in a graph 
+Description: "Using the calendar to select a start and end date the user can update the timeframe of the graph 
+The data included is dependent on the checkboxes checked."
+
+#14: Produce and view graphs of each attribute (i.e. snow, rain etc.)
+Description: "Generate graphs using MatPlotlib. The graphs are based on the selected attribute in the data provided.
+The graphs should be presented in the web interface."
+
+#15: Select a year I want to view in the graph (ex.: all data of attribute in 2016)
+Description: "Choose a year from the calendar to display chosen attributes with matplotlib."
+
+#16: Select and view a month (ex.: April of 2018) or all instances of this month (all Aprils of all years)
+Description: "Choose a month and year from the calendar to display chosen attributes with matplotlib. 
+Next to the calendars will be a checkbox that open the option to show the time span in all years, or only chosen year."
+
+Specs:
+Webpage:
+Graph
+Checkboxes for attributes
+Radiobox for multiple years and months
+Calendar
+Hover
+
+Backstage:
+Zoom
+Pan
