@@ -1,7 +1,7 @@
 # Frontend Code Specifications
 
 ## UI
-We will generate graphs on demand using [matplotlib](https://matplotlib.org/tutorials/introductory/usage.html#sphx-glr-tutorials-introductory-usage-py "matplotlib"). The function is triggered by the generate graph button. This will check which attributes' checkboxes are checked and send a list containing keywords to the attributes in question to the api, which requests the data with corresponding keywords.
+We will generate line charts on demand using [matplotlib](https://matplotlib.org/tutorials/introductory/usage.html#sphx-glr-tutorials-introductory-usage-py "matplotlib"). The function is triggered by the generate graph button. This will check which attributes' checkboxes are checked and send a list containing keywords to the attributes in question to the api, which requests the data with corresponding keywords.
 
 We will be using JSON to format the data between the website and frontend.
 
