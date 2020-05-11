@@ -34,11 +34,12 @@ def close_db(db):
 | FK         | AttributeID |
 
 
-| Attributes |      |
-| ---------- | ---- |
-| PK         | ID   |
-|            | Name |
-|            | Unit |
+| Attributes |             |
+| ---------- | ----------- |
+| PK         | ID          |
+|            | Name        |
+|            | DisplayName |
+|            | Unit        |
 
 # Datafile
 

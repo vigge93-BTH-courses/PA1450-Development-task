@@ -8,7 +8,7 @@ We will generate line charts on demand using [matplotlib](https://matplotlib.org
 
 By scrolling with your cursor wheel while hovering over, or by moving your fingers in oposite directions (apart to zoom in and together to zoom out) on the graph box, you're able to zoom in or out on the graph, and by dragging with a finger or clicking, holding and dragging around with a coursor over the graph you're able to pan over the graph while zoomed in.
 
-* for grahical specs, see [Website Specs file](https://github.com/vigge93/PA1450-Development-task/blob/Specifications-Frontend/Specifications/Frontend/Untitled%20Diagram%20(3).png " Website Specs file").
+* For grahical specs, see [Website Specs file](https://github.com/vigge93/PA1450-Development-task/blob/master/specifications/frontend/webpage_design_example.png " Website Specs file").
 
 ### Communication
 
