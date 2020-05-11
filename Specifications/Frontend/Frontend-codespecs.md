@@ -1,9 +1,11 @@
 # Frontend Code Specifications
 
 ## UI
-We will generate graphs on demand using [matplotlib](https://matplotlib.org/tutorials/introductory/usage.html#sphx-glr-tutorials-introductory-usage-py "matplotlib"). The function is triggered by the generate graph button. This will check which attribute's checkboxes are checked and send a list containing keywords to the attributes in question to the api, which requests the data with corresponding keywords.
+We will generate graphs on demand using [matplotlib](https://matplotlib.org/tutorials/introductory/usage.html#sphx-glr-tutorials-introductory-usage-py "matplotlib"). The function is triggered by the generate graph button. This will check which attributes' checkboxes are checked and send a list containing keywords to the attributes in question to the api, which requests the data with corresponding keywords.
 
-By hovering your coursor over the graph, a box containing the data point's data appears at the cursor's location. 
+We will be using JSON to format the data between the website and frontend.
+
+By hovering your cursor over the graph, a box containing the data point's data appears at the cursor's location. 
 
 By scrolling with your cursor wheel while hovering over, or by moving your fingers in oposite directions on the graph box, you're able to zoom in or out on the graph, and by dragging with a finger or clicking, holding and dragging around with a coursor over the graph you're able to pan over the graph while zoomed in.
 
@@ -32,7 +34,7 @@ All uploaded datafiles should follow the following format specification:
 
 # Program structure
 
-* All data from the database is recieved in a list of dictionaries.
+* All data from the back end is recieved in a list of dictionaries.
 * The program should be written in an imperative and/or functional paradigm.
 * Follow the development guidelines for codestyle and testing. 
 * The front end will work as an interface for the user to interact with the back end.
