@@ -27,5 +27,11 @@ def test_create_app():
 
 
 def test_hello_world():
+    # Given
+    expected = b'Hello, world!'
+
+    # When
     response = client.get('/hello')
-    assert response.data == b'Hello, world!'
+
+    # Then
+    assert response.data == expected
