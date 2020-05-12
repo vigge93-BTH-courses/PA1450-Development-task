@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Weather app{% endblock %}</h1>
+{% endblock %}
+{% block content %}
+<div id="graph">
+{{ graph|safe }}
+</div>
+<div id="timeSelector">
+    <div id="dates">
+        <label for="date_start">From date:</label>
+        <input type="date" name="date_start" id="dateStart" required>
+        <label for="date_end">To date:</label>
+        <input type="date" name="date_end" id="dateEnd" required>
+    </div>
+    <div id="years">
+        <label for="year">Year:</label>
+        <input pattern="[0-9]{4}" name="year" id="yearValue" required>
+    </div>
+    <div id="months">
+        <label for="month">Month:</label>
+        <input pattern="^([0-9]{4}-)?[0-1][0-9]$" name="month" id="monthValue" required>
+    </div>
+</div>
+<div id="intervallSelectors">
+    <input type="radio" name="timeIntervall" id="year" class="intervallSelector">
+    <label for="year">Show intervall per year</label>
+    <input type="radio" name="timeIntervall" id="month" class="intervallSelector">
+    <label for="month">Show intervall per month</label>
+    <input type="radio" name="timeIntervall" id="date" class="intervallSelector">
+    <label for="date">Show intervall between dates</label>
+</div>
+<div id="attributes">
+    {% for attribute in attributes %}
+    <input type="radio" name="attribute" id="{{ attribute['name'] }}" class="attribute" value="{{ attribute['name'] }}">
+    <label for="{{ attribute['name'] }}">{{ attribute['displayName'] }}</label>
+    {% endfor %}
+</div>
+<button onclick="generate_graph()">Generate graph</button>
+<form action="{{ url_for('index.upload_historical') }}">
+    <button class="button">Upload historical data</button>
+</form>
+{% endblock %}
