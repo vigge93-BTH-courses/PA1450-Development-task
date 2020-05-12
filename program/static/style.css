@@ -1,0 +1,47 @@
+
+#intervallSelectors label {
+    background-color: dodgerblue;
+    color: black;
+}
+
+body {
+
+}
+
+h1 {
+    text-align: center;
+    color:white;
+    font-size: 4em;
+    background-color: #6200EE;
+    box-shadow: 0px 4px 10px #888888;
+    padding-top: 0.1em;
+    padding-bottom: 0.3em;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+
+#graph {
+    margin: auto;
+    width: fit-content;
+    border: 1px solid black;
+    margin-top: 1em;
+}
+
+/*Viktigt*/
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #bbbbbb;
+  }
+  tr:nth-child(odd) {
+    background-color: #dddddd;
+  }
