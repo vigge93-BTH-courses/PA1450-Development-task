@@ -17,14 +17,16 @@ def file_reader(data_file):
 
 
 def insert_values_to_datapoints_table(table, data, c):
-    """Seperate string of data into comma seperated values and add to datapoint table."""
+    """Seperate string of data into comma seperated values
+    and add to datapoint table."""
     date_index = 0
     for row in data:
         if len(row) != 0 and row[0] == "Datum":
             date_index = data.index(row)
     for row in range((date_index + 1), len(data)):
         values_to_add = ""
-        sql_insert = """ INSERT INTO """+table+"""(Year, Month, Day, Time, Value)
+        sql_insert = """ INSERT INTO """+table+"""
+        (Year, Month, Day, Time, Value)
         VALUES ("""
         for i in data[row][0]:
             if i == "-":
@@ -48,7 +50,8 @@ def insert_values_to_datapoints_table(table, data, c):
 
 
 def insert_values_to_attribute_table(table, data, c):
-    """Check for special characters and replace with english alphabet (if necessary) and add to datapoint table."""
+    """Check for special characters and replace with english alphabet
+    (if necessary) and add to datapoint table."""
     parameter_index_column = 0
     attribute_index_column = 0
     parameter_index_row = 0
