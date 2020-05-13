@@ -1,6 +1,7 @@
 """Backend part of the weather application."""
 import sqlite3
 import csv
+import sys
 
 data_file = "data.csv"
 
@@ -81,7 +82,6 @@ def insert_values_to_attribute_table(table, data, c):
     sql_insert += ('"' + data[attribute_index_row + 1]
                    [attribute_index_column]+'"')
     sql_insert += ");"
-    # print(sql_insert)
     c.execute(sql_insert)
 
 
@@ -89,7 +89,7 @@ def access_db():
     """Retrieve database."""
     try:
         db = sqlite3.connect(
-            'weather_data.db',
+            'instance\\weather_data.db',
             detect_types=sqlite3.PARSE_DECLTYPES
 
         )
@@ -144,4 +144,5 @@ def run():
     close_db(db)
 
 
-run()
+if __name__ == '__main__':
+    globals()[sys.argv[1]]()
