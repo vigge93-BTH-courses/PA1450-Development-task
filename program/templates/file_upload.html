@@ -44,7 +44,7 @@ All uploaded datafiles should follow the following format specification:<br>
 * All data should be mesured in metric units.</p>
 <form action="{{ url_for('index.upload_historical') }}" method="POST">
     <input type="file" name="file" id="file">
-    <input type="submit" value="Upload file">
+    <input class="btn" type="submit" value="Upload file">
 </form>
-<button onclick="window.location.assign('/')">Back</button>
+<button class="btn" onclick="window.location.assign('/')">Back</button>
 {% endblock %}

@@ -12,7 +12,7 @@ function updateSelectors() {
     } else if (this.id === "month") {
         $("#months").css("display", "initial")
     } else if (this.id === "date") {
-        $("#dates").css("display", "initial")
+        $("#dates").css("display", "flex")
     }
 }
 

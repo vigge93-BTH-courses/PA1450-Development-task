@@ -19,7 +19,7 @@ bp = Blueprint('index', __name__)
 
 @bp.route('/')
 def index():
-    """Hello world."""
+    """Code to test the ui. Not final."""
     attr = [
         {'name': 'temperature', 'displayName': 'Temperatur'},
         {'name': 'speed', 'displayName': 'Speed'},
@@ -53,4 +53,5 @@ def index():
 
 @bp.route('/upload_historical')
 def upload_historical():
+    """Code to test the ui. Not final."""
     return render_template('file_upload.html')
