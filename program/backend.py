@@ -42,8 +42,9 @@ def ext_check(file):
 
 
 def insert_values_to_datapoints_table(table, data, c, attribute_id):
-    """Seperate string of data into comma seperated values
-    and add to datapoint table."""
+    """Seperate string of data into comma seperated values.
+    and add to datapoint table.
+    """
     date_index = 0
     for row in data:
         if len(row) != 0 and row[0] == "Datum" and row[1] == "Tid (UTC)":
@@ -145,7 +146,7 @@ def create_table(db, create_table_sql, c):
 
 
 def initialize_table(db, c):
-    """Create table. """
+    """Create table."""
     sql_create_datapoints_table = """CREATE TABLE IF NOT EXISTS Datapoints (
         ID integer PRIMARY KEY,
         Year integer,
@@ -179,7 +180,7 @@ def add_data_to_tables(attributes_table, datapoints_table, c, db):
 
 
 def initiate_database():
-    """"Initialize database if it does not exist, otherwise creates it"""
+    """Initialize database if it does not exist, otherwise creates it."""
     db = access_db()
     c = db.cursor()
     initialize_table(db, c)
