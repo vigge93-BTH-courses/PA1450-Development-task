@@ -1,5 +1,4 @@
-from program.backend import file_reader, insert_values_to_attribute_table, insert_values_to_datapoints_table
-
+from program.backend import file_reader, file_upload
 
 def test_file_reader():
     # Given
@@ -17,11 +16,15 @@ def test_file_reader():
 def test_file_upload():
     # Given
     a = "data.csv"
+    b = "data.img"
 
     # When
-    res1 = file_reader(a)
-    res2 = file_reader(a)
+    res1 = file_upload(a)
+    res2 = file_upload(a)
+    res3 = file_upload(b)
 
     # Then
-    assert type(res1) == list
-    assert type(res2) != int
+    assert type(res1) == str
+    assert res2 == "File uploaded succesfully!"
+    assert res3 == "File is not in the correct format"
+

@@ -26,20 +26,18 @@ def file_upload(file):
     if type(check) is list:
         attribute_id = insert_values_to_attribute_table("Attributes", check, c)
         insert_values_to_datapoints_table("Datapoints", check, c, attribute_id)
+        return "File uploaded succesfully!"
     else:
-        print(check)
+        return check
     close_db(db)
 
 
 def ext_check(file):
     """Check if extension is csv."""
-    try:
-        ext = os.path.splitext(file)
-        if ext[1] == '.csv':
-            return file_reader(file)
-        else:
-            return "File is not in the correct format"
-    except:
+    ext = os.path.splitext(file)
+    if ext[1] == '.csv':
+        return file_reader(file)
+    else:
         return "File is not in the correct format"
 
 
