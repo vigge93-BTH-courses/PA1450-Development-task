@@ -1,17 +1,9 @@
-#intervallSelectors{
-  /* margin-left: 500px; */
-  
-}
-
 #intervallSelectors label {
   color: black;
 }
 
 #timeSelector {
   margin-bottom: 10px;
-}
-
-.leftcol {
 }
 
 .rightcol {
@@ -23,23 +15,23 @@ body {
 }
 
 h1 {
-    text-align: center;
-    color:white;
-    font-size: 4em;
-    background-color: #6200EE;
-    box-shadow: 0px 2px 8px #888888;
-    padding-top: 0.1em;
-    padding-bottom: 0.1em;
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
+  text-align: center;
+  color: white;
+  font-size: 4em;
+  background-color: #6200EE;
+  box-shadow: 0px 2px 8px #888888;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
 
 }
 
 #graph {
-    margin: auto;
-    width: fit-content;
-    margin-top: 1em;
-    box-shadow: 0px 2px 8px #888888;
+  margin: auto;
+  width: fit-content;
+  margin-top: 1em;
+  box-shadow: 0px 2px 8px #888888;
 }
 
 .selectors {
@@ -66,16 +58,14 @@ h1 {
   font-size: 14px;
   box-shadow: 0px 2px 8px #888888;
   border-radius: 25px
-  
-  
 }
 
 #dates {
   display: flex;
 }
 
-#dates > label {
-margin-right:10px;
+#dates>label {
+  margin-right: 10px;
 }
 
 .btns {
@@ -87,26 +77,27 @@ label {
   font-size: 22px;
 }
 
-/*Viktigt*/
 table {
   font-family: 'Roboto', sans-serif;
-    border-collapse: collapse;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #bbbbbb;
-  }
-  tr:nth-child(odd) {
-    background-color: #dddddd;
-  }
+  border-collapse: collapse;
+}
 
-  /* Customize the label (the container) */
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #bbbbbb;
+}
+
+tr:nth-child(odd) {
+  background-color: #dddddd;
+}
+
+/* Customize the label (the container) */
 .container {
   display: block;
   position: relative;
@@ -142,14 +133,14 @@ table {
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
+.container:hover input~.checkmark {
   background-color: #ccc;
 }
 
 /* When the radio button is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.container input:checked~.checkmark {
   background-color: #bb86fc;
-  
+
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -160,7 +151,7 @@ table {
 }
 
 /* Show the indicator (dot/circle) when checked */
-.container input:checked ~ .checkmark:after {
+.container input:checked~.checkmark:after {
   display: block;
 }
 
