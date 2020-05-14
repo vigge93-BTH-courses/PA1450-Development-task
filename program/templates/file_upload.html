@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block header %}
+<h1>{% block title %}Historical data upload{% endblock %}</h1>
+{% endblock %}
+{% block content %}
+<p>
+All uploaded datafiles should follow the following format specification:<br>
+* All files are presented in a csv-file with `;` as the separator and uses `.` for the decimal seperator.<br>
+* The table should have the following layout:<br>
+    * The following should exist somewhere in the file:</p>
+    <table>
+        <tr><th>Enhet</th></tr>
+        <tr><td>[Name of unit]</td></tr>
+    </table>
+    <p></p>
+    <table>
+        <tr><th>Parameternamn</th></tr>
+        <tr><td>[Name of parameter]</td></tr>
+    </table>
+
+    <p>* The list of the main data should be formatted in the following way:</p>
+    <table>
+        <tr>
+            <th>Datum</th>
+            <th>Tid (UTC)</th>
+            <th>Parameternamn</th>
+            <th>[Other columns]</th>
+        </tr>
+        <tr>
+            <td>[Date given in ISO-8601 format]</td>
+            <td>[Time given as HH:MM:SS in UTC]</td>
+            <td>[Value for the parameter without unit]</td>
+            <td>[Other data that will be ignored</td>
+        </tr>
+        <tr>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+        </tr>
+    </table>
+<p>
+* Other data presented in the file will be ignored.<br>
+* All data should be mesured in metric units.</p>
+<form action="{{ url_for('index.upload_historical') }}" method="POST">
+    <input type="file" name="file" id="file">
+    <input class="btn" type="submit" value="Upload file">
+</form>
+<button class="btn" onclick="window.location.assign('/')">Back</button>
+{% endblock %}
