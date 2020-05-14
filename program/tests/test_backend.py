@@ -1,6 +1,8 @@
 from program.backend import file_reader, file_upload
 
+
 def test_file_reader():
+    """Test file reader."""
     # Given
     a = "data.csv"
 
@@ -14,6 +16,7 @@ def test_file_reader():
 
 
 def test_file_upload():
+    """Test file upload."""
     # Given
     a = "data.csv"
     b = "data.img"
@@ -27,4 +30,3 @@ def test_file_upload():
     assert type(res1) == str
     assert res2 == "File uploaded succesfully!"
     assert res3 == "File is not in the correct format"
-
