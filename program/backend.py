@@ -123,10 +123,10 @@ def run():
         Day integer,
         Time text,
         Value real,
-        AttributeID integer,
-        FOREIGN KEY(AttributeID) REFERENCES Attributes(id));"""
-    sql_create_attributes_table = """ CREATE TABLE IF NOT EXISTS Attributes(
-        id integer PRIMARY KEY,
+        attr_id integer,
+        FOREIGN KEY(attr_id) REFERENCES Attributes(attr_id));"""
+    sql_create_attributes_table = """CREATE TABLE IF NOT EXISTS Attributes(
+        attr_id integer PRIMARY KEY,
         Name text,
         DisplayName text,
         Unit text
@@ -138,8 +138,8 @@ def run():
     datapoints_table = create_table(db, sql_create_datapoints_table, c)
     db.commit()
     list_of_values = file_reader(data_file)
-    insert_values_to_datapoints_table("Datapoints", list_of_values, c)
     insert_values_to_attribute_table("Attributes", list_of_values, c)
+    insert_values_to_datapoints_table("Datapoints", list_of_values, c)
     db.commit()
     close_db(db)
 
