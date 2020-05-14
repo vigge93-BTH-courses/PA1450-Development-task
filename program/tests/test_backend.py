@@ -12,3 +12,16 @@ def test_file_reader():
     # Then
     assert type(res1) == list
     assert type(res2) != int
+
+
+def test_file_upload():
+    # Given
+    a = "data.csv"
+
+    # When
+    res1 = file_reader(a)
+    res2 = file_reader(a)
+
+    # Then
+    assert type(res1) == list
+    assert type(res2) != int

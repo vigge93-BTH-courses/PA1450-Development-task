@@ -2,6 +2,7 @@
 import sqlite3
 import csv
 import sys
+import os
 
 data_file = "data.csv"
 
@@ -17,13 +18,40 @@ def file_reader(data_file):
         return data
 
 
+def file_upload(file):
+    """Insert valeus from uploaded file."""
+    check = ext_check(file)
+    db = access_db()
+    c = db.cursor()
+    if type(check) is list:
+        attribute_id = insert_values_to_attribute_table("Attributes", check, c)
+        insert_values_to_datapoints_table("Datapoints", check, c, attribute_id)
+    else:
+        print(check)
+    close_db(db)
+
+
+def ext_check(file):
+    """Check if extension is csv."""
+    try:
+        ext = os.path.splitext(file)
+        if ext[1] == '.csv':
+            return file_reader(file)
+        else:
+            return "File is not in the correct format"
+    except:
+        return "File is not in the correct format"
+
+
 def insert_values_to_datapoints_table(table, data, c, attribute_id):
     """Seperate string of data into comma seperated values
     and add to datapoint table."""
     date_index = 0
     for row in data:
-        if len(row) != 0 and row[0] == "Datum":
+        if len(row) != 0 and row[0] == "Datum" and row[1] == "Tid (UTC)":
             date_index = data.index(row)
+        else:
+            return "Some expected data does not exist"
     for row in range((date_index + 1), len(data)):
         values_to_add = ""
         sql_insert = """ INSERT INTO """+table+"""
@@ -118,8 +146,8 @@ def create_table(db, create_table_sql, c):
         print(error)
 
 
-def run():
-    """Run the code. """
+def initialize_table(db, c):
+    """Create table. """
     sql_create_datapoints_table = """CREATE TABLE IF NOT EXISTS Datapoints (
         ID integer PRIMARY KEY,
         Year integer,
@@ -134,19 +162,29 @@ def run():
         DisplayName text,
         Unit text
         );"""
-    db = access_db()
-    c = db.cursor()
     c.execute("""PRAGMA foreign_keys = ON;""")
     attributes_table = create_table(db, sql_create_attributes_table, c)
     datapoints_table = create_table(db, sql_create_datapoints_table, c)
     db.commit()
-    list_of_values = file_reader(data_file)
+    add_data_to_tables(attributes_table, datapoints_table, c, db)
+
+
+def add_data_to_tables(attributes_table, datapoints_table, c, db):
+    """Add data to tables."""
+    list_of_values = ext_check(data_file)
     attribute_id = insert_values_to_attribute_table(
         "Attributes", list_of_values, c)
     insert_values_to_datapoints_table(
         "Datapoints", list_of_values, c, attribute_id)
     db.commit()
     close_db(db)
+
+
+def initiate_database():
+    """"Initialize database if it does not exist, otherwise creates it"""
+    db = access_db()
+    c = db.cursor()
+    initialize_table(db, c)
 
 
 if __name__ == '__main__':
