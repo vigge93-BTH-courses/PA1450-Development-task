@@ -17,7 +17,7 @@ def file_reader(data_file):
         return data
 
 
-def insert_values_to_datapoints_table(table, data, c):
+def insert_values_to_datapoints_table(table, data, c, attribute_id):
     """Seperate string of data into comma seperated values
     and add to datapoint table."""
     date_index = 0
@@ -27,7 +27,7 @@ def insert_values_to_datapoints_table(table, data, c):
     for row in range((date_index + 1), len(data)):
         values_to_add = ""
         sql_insert = """ INSERT INTO """+table+"""
-        (Year, Month, Day, Time, Value)
+        (Year, Month, Day, Time, Value, AttributeID)
         VALUES ("""
         for i in data[row][0]:
             if i == "-":
@@ -46,8 +46,11 @@ def insert_values_to_datapoints_table(table, data, c):
                 sql_insert += data[row][i]
             if i != 2:
                 sql_insert += ","
+        sql_insert += ","
+        sql_insert += str(attribute_id)
         sql_insert += ");"
         c.execute(sql_insert)
+    # print(sql_insert)
 
 
 def insert_values_to_attribute_table(table, data, c):
@@ -83,6 +86,7 @@ def insert_values_to_attribute_table(table, data, c):
                    [attribute_index_column]+'"')
     sql_insert += ");"
     c.execute(sql_insert)
+    return c.lastrowid
 
 
 def access_db():
@@ -117,16 +121,15 @@ def create_table(db, create_table_sql, c):
 def run():
     """Run the code. """
     sql_create_datapoints_table = """CREATE TABLE IF NOT EXISTS Datapoints (
-        id integer PRIMARY KEY,
+        ID integer PRIMARY KEY,
         Year integer,
         Month integer,
         Day integer,
         Time text,
         Value real,
-        attr_id integer,
-        FOREIGN KEY(attr_id) REFERENCES Attributes(attr_id));"""
+        AttributeID integer);"""
     sql_create_attributes_table = """CREATE TABLE IF NOT EXISTS Attributes(
-        attr_id integer PRIMARY KEY,
+        ID integer PRIMARY KEY,
         Name text,
         DisplayName text,
         Unit text
@@ -138,8 +141,10 @@ def run():
     datapoints_table = create_table(db, sql_create_datapoints_table, c)
     db.commit()
     list_of_values = file_reader(data_file)
-    insert_values_to_attribute_table("Attributes", list_of_values, c)
-    insert_values_to_datapoints_table("Datapoints", list_of_values, c)
+    attribute_id = insert_values_to_attribute_table(
+        "Attributes", list_of_values, c)
+    insert_values_to_datapoints_table(
+        "Datapoints", list_of_values, c, attribute_id)
     db.commit()
     close_db(db)
 
