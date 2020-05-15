@@ -1,4 +1,4 @@
-from program.backend import file_reader, file_upload
+from program.backend import file_reader, process_file, get_attributes
 
 
 def test_file_reader():
@@ -22,11 +22,20 @@ def test_file_upload():
     b = "data.img"
 
     # When
-    res1 = file_upload(a)
-    res2 = file_upload(a)
-    res3 = file_upload(b)
+    res1 = process_file(a)
+    res2 = process_file(a)
+    res3 = process_file(b)
 
     # Then
     assert type(res1) == str
     assert res2 == "File uploaded succesfully!"
     assert res3 == "File is not in the correct format"
+
+
+def test_get_attributes():
+    """Test get attributes."""
+    # When
+    res1 = get_attributes()
+
+    # Then
+    assert type(res1) == list

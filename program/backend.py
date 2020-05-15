@@ -18,7 +18,7 @@ def file_reader(data_file):
         return data
 
 
-def file_upload(file):
+def process_file(file):
     """Insert valeus from uploaded file."""
     check = ext_check(file)
     db = access_db()
@@ -30,6 +30,17 @@ def file_upload(file):
     else:
         return check
     close_db(db)
+
+
+def get_attributes():
+    db = access_db()
+    c = db.cursor()
+    sqlite_get_data = """SELECT ID, DisplayName FROM Attributes;"""
+    attr_data = c.execute(sqlite_get_data)
+    data_to_return = []
+    for row in attr_data:
+        data_to_return.append([row[0], row[1]])
+    return data_to_return
 
 
 def ext_check(file):
