@@ -38,4 +38,4 @@ def test_get_attributes():
     res1 = get_attributes()
 
     # Then
-    assert type(res1) == list
+    assert type(res1) == dict

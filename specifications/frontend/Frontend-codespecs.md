@@ -22,8 +22,8 @@ The date picker will be dynamiclly displayed based on the selection of the radio
 
 {
    "timeArgument": [timeArg1, timeArg2 (optional)],
-   "timeIntervallType": "year/months/intervall",
-   "attribute": attributeName
+   "timeIntervallType": "MONTH/TIME_INTERVALL",
+   "Argument": attributeName
 }
 
 ### Datafile upload

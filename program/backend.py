@@ -33,14 +33,22 @@ def process_file(file):
 
 
 def get_attributes():
+    """Get attributes from table."""
     db = access_db()
     c = db.cursor()
-    sqlite_get_data = """SELECT ID, DisplayName FROM Attributes;"""
+    sqlite_get_data = """SELECT Name, DisplayName FROM Attributes;"""
     attr_data = c.execute(sqlite_get_data)
-    data_to_return = []
+    data_to_return = {}
     for row in attr_data:
-        data_to_return.append([row[0], row[1]])
+        data_to_return["Name"] = row[0]
+        data_to_return["DisplayName"] = row[1]
+    close_db(db)
     return data_to_return
+
+
+def get_data(filters):
+    db = access_db()
+    c = db.cursor()
 
 
 def ext_check(file):
