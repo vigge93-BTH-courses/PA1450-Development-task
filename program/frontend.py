@@ -5,14 +5,18 @@ Uses Flask to create a web server and serve websites.
 import functools
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for,
+    current_app
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 
-import program.backend
+import program.backend as backend
 
 import matplotlib.pyplot as plt
 import mpld3
+
+import os
+
 
 bp = Blueprint('index', __name__)
 
@@ -51,7 +55,47 @@ def index():
     return render_template('index.html', attributes=attr, graph=graph)
 
 
-@bp.route('/upload_historical')
+@bp.route('/upload_historical', methods=('GET', 'POST'))
 def upload_historical():
-    """Code to test the ui. Not final."""
+    """Render the upload file webpage and handle uploaded file.
+
+    Render file_upload.html if method is GET.
+
+    Save file to file system, call backend to process data
+    and render index.html if method is POST.
+    """
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.instance_path, filename))
+            message = backend.process_file(filename)
+            flash(message)
+            return redirect(url_for('index'))
+        else:
+            flash("Invalid file type")
+
     return render_template('file_upload.html')
+
+
+def allowed_file(filename):
+    """Test if filename is allowed.
+
+    Args:
+        filename: string with the name of the file.
+    Returns:
+        True if filename is allowed, otherwise False.
+    """
+    ALLOWED_EXTENSIONS = ('csv')
+    if not filename:
+        return False
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
