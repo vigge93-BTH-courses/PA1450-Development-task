@@ -100,15 +100,12 @@ def test_ext_check():
     """Test extension check."""
     # Given
     a = "data.csv"
-# b = tempfile.NamedTemporaryFile(prefix="test", suffix=".img")
 
     # When
     res1 = ext_check(a)
-#  res2 = ext_check(b)
 
     # Then
     assert type(res1) == list
-#  assert res2 == "File is not in the correct format"
 
 
 def test_close_db():

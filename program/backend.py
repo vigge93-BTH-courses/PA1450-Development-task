@@ -3,34 +3,48 @@ import sqlite3
 import csv
 import sys
 import os
+from datetime import date
 
 data_file = "data.csv"
-dic = {"timeArgument": ["01"],
-       "timeIntervallType": "MONTH", "Argument": "nederbordsmangd"}
+dic = {"timeArgument": ["2020-01-01", "2020-01-02"],
+       "timeIntervallType": "TIME_INTERVALL", "Argument": "nederbordsmangd"}
 
 
 def file_reader(data_file):
     """Open CSV file and appends data to a list."""
-    with open(data_file, 'r', encoding='utf-8') as csv_file:
-        reader = csv.reader(csv_file, delimiter=';')
+    ext = ext_check(data_file)
+    if ext:
+        with open(data_file, 'r', encoding='utf-8') as csv_file:
+            reader = csv.reader(csv_file, delimiter=';')
 
-        data = []
-        for row in reader:
-            data.append(row)
-        return data
+            data = []
+            for row in reader:
+                data.append(row)
+            return data
+    elif not ext:
+        return "File is not in the correct format"
+
+
+def ext_check(file):
+    """Check if extension is csv."""
+    ext = os.path.splitext(file)
+    if ext[1] == '.csv':
+        return True
+    else:
+        return False
 
 
 def process_file(file):
     """Insert values from uploaded file."""
-    check = ext_check(file)
+    data = file_reader(file)
     db = access_db()
     c = db.cursor()
-    if type(check) is list:
-        attribute_id = insert_values_to_attribute_table("Attributes", check, c)
-        insert_values_to_datapoints_table("Datapoints", check, c, attribute_id)
+    if type(data) is list:
+        attribute_id = insert_values_to_attribute_table("Attributes", data, c)
+        insert_values_to_datapoints_table("Datapoints", data, c, attribute_id)
         return "File uploaded succesfully!"
     else:
-        return check
+        return data
     close_db(db)
 
 
@@ -40,20 +54,19 @@ def get_attributes():
     c = db.cursor()
     sqlite_get_data = """SELECT Name, DisplayName FROM Attributes;"""
     attr_data = c.execute(sqlite_get_data)
-    data_to_return = {}
+    data_to_return = []
     for row in attr_data:
-        data_to_return["Name"] = row[0]
-        data_to_return["DisplayName"] = row[1]
+        data_to_return.append({"name": row[0], "displayName": row[1]})
     close_db(db)
     return data_to_return
 
 
 def get_data(filters):
-    """Get data from using filters from databases."""
+    """Get data from databases using filters."""
     db = access_db()
     c = db.cursor()
     sql_get_id = """SELECT ID, Unit FROM Attributes WHERE Name = '""" + \
-        filters["Argument"]+"""';"""
+        filters["Argument"]+"""'"""
     data = c.execute(sql_get_id)
     for bit in data:
         attr_id = bit[0]
@@ -73,16 +86,15 @@ def get_data(filters):
         datapoints_to_return = c.execute(sql_get_data)
         data_to_return = []
         for data in datapoints_to_return:
-            data_to_return.append({"id": attr_id,
-                                   "year": start_date[0],
-                                   "month": start_date[1],
-                                   "day": start_date[2],
+            data_to_return.append({"id": data[0],
+                                   "year": data[1],
+                                   "month": data[2],
+                                   "day": data[3],
                                    "time": data[4],
                                    "value": data[5],
                                    "unit": unit
                                    })
         close_db(db)
-        print(data_to_return)
         return data_to_return
     elif filters["timeIntervallType"] == "MONTH":
         month = dates[0]
@@ -92,7 +104,7 @@ def get_data(filters):
         datapoints_to_return = c.execute(sql_get_data)
         data_to_return = []
         for data in datapoints_to_return:
-            data_to_return.append({"id": attr_id,
+            data_to_return.append({"id": data[0],
                                    "year": data[1],
                                    "month": data[2],
                                    "day": data[3],
@@ -101,18 +113,8 @@ def get_data(filters):
                                    "unit": unit
                                    })
         close_db(db)
-        print(data_to_return)
         return data_to_return
     close_db(db)
-
-
-def ext_check(file):
-    """Check if extension is csv."""
-    ext = os.path.splitext(file)
-    if ext[1] == '.csv':
-        return file_reader(file)
-    else:
-        return "File is not in the correct format"
 
 
 def insert_values_to_datapoints_table(table, data, c, attribute_id):
@@ -193,19 +195,16 @@ def access_db():
         db = sqlite3.connect(
             'instance\\weather_data.db',
             detect_types=sqlite3.PARSE_DECLTYPES
-
         )
         db.row_factory = sqlite3.Row
-        print("Created and connected to database successfully.")
         return db
     except sqlite3.Error as error:
-        print("Error while retriving database", error)
+        raise Exception
 
 
 def close_db(db):
     """Close database connection."""
     db.close()
-    print("Successfully closed connection")
 
 
 def initialize_table(db, c):
@@ -228,7 +227,7 @@ def initialize_table(db, c):
     attributes_table = c.execute(sql_create_attributes_table)
     datapoints_table = c.execute(sql_create_datapoints_table)
     db.commit()
-    list_of_values = ext_check(data_file)
+    list_of_values = file_reader(data_file)
     attribute_id = insert_values_to_attribute_table(
         "Attributes", list_of_values, c)
     insert_values_to_datapoints_table(
@@ -245,4 +244,4 @@ def initiate_database():
 
 
 if __name__ == '__main__':
-    globals()[sys.argv[1]](dic)
+    globals()[sys.argv[1]]()
