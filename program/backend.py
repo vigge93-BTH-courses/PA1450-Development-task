@@ -5,6 +5,8 @@ import sys
 import os
 
 data_file = "data.csv"
+dic = {"timeArgument": ["01"],
+       "timeIntervallType": "MONTH", "Argument": "nederbordsmangd"}
 
 
 def file_reader(data_file):
@@ -47,9 +49,61 @@ def get_attributes():
 
 
 def get_data(filters):
+    """Get data from using filters from databases."""
     db = access_db()
     c = db.cursor()
-    
+    sql_get_id = """SELECT ID, Unit FROM Attributes WHERE Name = '""" + \
+        filters["Argument"]+"""';"""
+    data = c.execute(sql_get_id)
+    for bit in data:
+        attr_id = bit[0]
+        unit = bit[1]
+    dates = filters["timeArgument"]
+    if filters["timeIntervallType"] == "TIME_INTERVALL":
+        start_date = dates[0]
+        start_date = start_date.split("-")
+        start_date[1] = int(start_date[1])
+        start_date[2] = int(start_date[2])
+        end_date = dates[1]
+        end_date = end_date.split("-")
+        end_date[1] = int(end_date[1])
+        end_date[2] = int(end_date[2])
+        sql_get_data = """SELECT * FROM Datapoints WHERE Year BETWEEN '"""+str(start_date[0])+"""'AND '"""+str(end_date[0])+"""' AND Month BETWEEN '"""+str(
+            start_date[1])+"""' AND '"""+str(end_date[1])+"""' AND Day BETWEEN '"""+str(start_date[2])+"""' AND '"""+str(end_date[2])+"""' AND AttributeID = """+str(attr_id)+""";"""
+        datapoints_to_return = c.execute(sql_get_data)
+        data_to_return = []
+        for data in datapoints_to_return:
+            data_to_return.append({"id": attr_id,
+                                   "year": start_date[0],
+                                   "month": start_date[1],
+                                   "day": start_date[2],
+                                   "time": data[4],
+                                   "value": data[5],
+                                   "unit": unit
+                                   })
+        close_db(db)
+        print(data_to_return)
+        return data_to_return
+    elif filters["timeIntervallType"] == "MONTH":
+        month = dates[0]
+        month = int(month)
+        sql_get_data = """SELECT * FROM Datapoints WHERE Month = '""" + \
+            str(month)+"""' AND AttributeID = '"""+str(attr_id)+"""';"""
+        datapoints_to_return = c.execute(sql_get_data)
+        data_to_return = []
+        for data in datapoints_to_return:
+            data_to_return.append({"id": attr_id,
+                                   "year": data[1],
+                                   "month": data[2],
+                                   "day": data[3],
+                                   "time": data[4],
+                                   "value": data[5],
+                                   "unit": unit
+                                   })
+        close_db(db)
+        print(data_to_return)
+        return data_to_return
+    close_db(db)
 
 
 def ext_check(file):
@@ -95,7 +149,6 @@ def insert_values_to_datapoints_table(table, data, c, attribute_id):
         sql_insert += str(attribute_id)
         sql_insert += ");"
         c.execute(sql_insert)
-    # print(sql_insert)
 
 
 def insert_values_to_attribute_table(table, data, c):
@@ -154,13 +207,14 @@ def close_db(db):
     db.close()
     print("Successfully closed connection")
 
+
 def initialize_table(db, c):
     """Create table."""
     sql_create_datapoints_table = """CREATE TABLE IF NOT EXISTS Datapoints (
         ID integer PRIMARY KEY,
-        Year integer,
-        Month integer,
-        Day integer,
+        Year text,
+        Month text,
+        Day text,
         Time text,
         Value real,
         AttributeID integer);"""
@@ -182,6 +236,7 @@ def initialize_table(db, c):
     db.commit()
     close_db(db)
 
+
 def initiate_database():
     """Initialize database if it does not exist, otherwise creates it."""
     db = access_db()
@@ -190,4 +245,4 @@ def initiate_database():
 
 
 if __name__ == '__main__':
-    globals()[sys.argv[1]]()
+    globals()[sys.argv[1]](dic)

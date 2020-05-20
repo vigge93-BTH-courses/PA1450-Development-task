@@ -47,7 +47,7 @@ def test_initiate_database():
 
 
 def test_access_db():
-    """Test."""
+    """Test access database."""
     # When
     res1 = access_db()
 
@@ -56,7 +56,7 @@ def test_access_db():
 
 
 def test_initialize_table():
-    """Test."""
+    """Test initialize table."""
     # Given
     db = access_db()
     c = db.cursor()
@@ -81,12 +81,23 @@ def test_get_attributes():
 
 
 def test_get_data():
-    """Test."""
-    pass
+    """Test get data."""
+    # Given
+    dic1 = {"timeArgument": ["01"],
+            "timeIntervallType": "MONTH", "Argument": "nederbordsmangd"}
+    dic2 = {"timeArgument": ["2020-01-01", "2020-01-02"],
+            "timeIntervallType": "TIME_INTERVALL", "Argument": "nederbordsmangd"}
+    # When
+    res1 = get_data(dic1)
+    res2 = get_data(dic2)
+
+    # Then
+    assert type(res1) == list
+    assert type(res2) == list
 
 
 def test_ext_check():
-    """Test."""
+    """Test extension check."""
     # Given
     a = "data.csv"
 # b = tempfile.NamedTemporaryFile(prefix="test", suffix=".img")
@@ -101,7 +112,7 @@ def test_ext_check():
 
 
 def test_close_db():
-    """Test."""
+    """Test close database."""
     # Given
     db = access_db()
     is_closed = False
