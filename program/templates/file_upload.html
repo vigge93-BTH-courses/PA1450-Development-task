@@ -3,6 +3,7 @@
 <h1>{% block title %}Historical data upload{% endblock %}</h1>
 {% endblock %}
 {% block content %}
+<div class='fileupload'>
 <p>
     All uploaded datafiles should follow the following format specification:<br>
     * All files are presented in a csv-file with `;` as the separator and uses `.` for the decimal seperator.<br>
@@ -38,7 +39,7 @@
         <td>[Date given in ISO-8601 format]</td>
         <td>[Time given as HH:MM:SS in UTC]</td>
         <td>[Value for the parameter without unit]</td>
-        <td>[Other data that will be ignored</td>
+        <td>[Other data that will be ignored]</td>
     </tr>
     <tr>
         <td>...</td>
@@ -55,4 +56,5 @@
     <input class="btn" type="submit" value="Upload file">
 </form>
 <button class="btn" onclick="window.location.assign('/')">Back</button>
+</div>
 {% endblock %}

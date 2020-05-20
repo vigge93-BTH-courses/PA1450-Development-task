@@ -14,50 +14,51 @@
     {{ div|safe }}
 </div>
 <div class="selectors">
-<div class="leftcol">
-    <div id="timeSelector">
-        <div id="dates">
-            <label>From date:
-                <input type="date" name="date_start" id="dateStart" required>
-            </label>
-            <label>To date:
-                <input type="date" name="date_end" id="dateEnd" required>
-            </label>
+    <div class="leftcol">
+        <div id="timeSelector">
+            <div id="dates">
+                <label>From date:
+                    <input type="date" name="date_start" id="dateStart" required>
+                </label>
+                <label>To date:
+                    <input type="date" name="date_end" id="dateEnd" required>
+                </label>
+            </div>
+            <div id="years">
+                <label for="year">Year:</label>
+                <input pattern="[0-9]{4}" name="year" id="yearValue" required>
+            </div>
+            <div id="months">
+                <label for="month">Month:</label>
+                <input pattern="^([0-9]{4}-)?[0-1][0-9]$" name="month" id="monthValue" required>
+            </div>
         </div>
-        <div id="years">
-            <label for="year">Year:</label>
-            <input pattern="[0-9]{4}" name="year" id="yearValue" required>
-        </div>
-        <div id="months">
-            <label for="month">Month:</label>
-            <input pattern="^([0-9]{4}-)?[0-1][0-9]$" name="month" id="monthValue" required>
+        <div id="attributes">
+            {% for attribute in attributes %}
+            <label class="container">{{ attribute['displayName'] }}
+                <input type="radio" name="attribute" id="{{ attribute['name'] }}" class="attribute"
+                    value="{{ attribute['name'] }}" {% if attribute['name'] == selected_attribute['name'] %}checked{% endif %}>
+                <span class="checkmark"></span>
+            </label>
+            {% endfor %}
         </div>
     </div>
-    <div id="attributes">
-        {% for attribute in attributes %}
-        <label class="container">{{ attribute['displayName'] }}
-            <input type="radio" name="attribute" id="{{ attribute['name'] }}" class="attribute" value="{{ attribute['name'] }}">
+    <div id="intervallSelectors" class="rightcol">
+        <label class="container">Show intervall per year
+            <input type="radio" name="timeIntervall" id="year" class="intervallSelector">
             <span class="checkmark"></span>
         </label>
-        {% endfor %}
-    </div>
-</div>
-<div id="intervallSelectors" class="rightcol">
-    <label class="container">Show intervall per year
-        <input type="radio" name="timeIntervall" id="year" class="intervallSelector">
-        <span class="checkmark"></span>
-    </label>
-    
-    <label class="container">Show intervall per month
-        <input type="radio" name="timeIntervall" id="month" class="intervallSelector">
-        <span class="checkmark"></span>
-    </label>
 
-    <label class="container">Show intervall between dates
-        <input type="radio" name="timeIntervall" id="date" class="intervallSelector">
-        <span class="checkmark"></span>
-    </label>
-</div>
+        <label class="container">Show intervall per month
+            <input type="radio" name="timeIntervall" id="month" class="intervallSelector">
+            <span class="checkmark"></span>
+        </label>
+
+        <label class="container">Show intervall between dates
+            <input type="radio" name="timeIntervall" id="date" class="intervallSelector">
+            <span class="checkmark"></span>
+        </label>
+    </div>
 </div>
 <div class="btns" id=btncontainer>
     <button class="btn" onclick="generate_graph()">GENERATE GRAPH</button>
