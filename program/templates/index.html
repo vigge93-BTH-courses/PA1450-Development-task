@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 
+{% block head %}
+{{ js|indent(4)|safe }}
+{{ css|indent(4)|safe }}
+{% endblock %}
+
 {% block header %}
 <h1>{% block title %}Weather app{% endblock %}</h1>
 {% endblock %}
 {% block content %}
 <div id="graph">
-{{ graph|safe }}
+    {{ script|indent(4)|safe }}
+    {{ div|safe }}
 </div>
 <div class="selectors">
 <div class="leftcol">

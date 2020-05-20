@@ -6,6 +6,7 @@
 <script>
     const $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
 </script>
+{% block head %}{% endblock %}
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
 <section class="content">
     <header>{% block header %}{% endblock %}</header>
