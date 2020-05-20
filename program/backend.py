@@ -3,7 +3,6 @@ import sqlite3
 import csv
 import sys
 import os
-import flask
 
 data_file = "data.csv"
 
