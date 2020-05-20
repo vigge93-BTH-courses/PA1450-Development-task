@@ -2,6 +2,7 @@ from program.backend import file_reader, process_file, get_attributes, get_data,
 import os
 import tempfile
 
+
 def test_file_reader():
     """Test file reader."""
     # Given
@@ -35,21 +36,27 @@ def test_file_upload():
     # Removes the file the file
     b.close()
 
+
 def test_initiate_database():
+    """Test initiate_database."""
     # When
     res1 = initiate_database()
 
     # Then
     assert os.path.isfile('instance\weather_data.db')
 
+
 def test_access_db():
+    """Test."""
     # When
     res1 = access_db()
 
     # Then
     assert os.path.isfile('instance\weather_data.db')
 
+
 def test_initialize_table():
+    """Test."""
     # Given
     db = access_db()
     c = db.cursor()
@@ -63,6 +70,7 @@ def test_initialize_table():
     # Then
     assert res1 == 'Datapoints'
 
+
 def test_get_attributes():
     """Test get attributes."""
     # When
@@ -71,23 +79,29 @@ def test_get_attributes():
     # Then
     assert type(res1) == dict
 
+
 def test_get_data():
+    """Test."""
     pass
 
+
 def test_ext_check():
+    """Test."""
     # Given
     a = "data.csv"
-   # b = tempfile.NamedTemporaryFile(prefix="test", suffix=".img")
+# b = tempfile.NamedTemporaryFile(prefix="test", suffix=".img")
 
     # When
     res1 = ext_check(a)
-  #  res2 = ext_check(b)
+#  res2 = ext_check(b)
 
     # Then
     assert type(res1) == list
-  #  assert res2 == "File is not in the correct format"
+#  assert res2 == "File is not in the correct format"
+
 
 def test_close_db():
+    """Test."""
     # Given
     db = access_db()
     is_closed = False

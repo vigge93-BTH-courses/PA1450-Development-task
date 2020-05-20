@@ -49,6 +49,7 @@ def get_attributes():
 def get_data(filters):
     db = access_db()
     c = db.cursor()
+    
 
 
 def ext_check(file):
