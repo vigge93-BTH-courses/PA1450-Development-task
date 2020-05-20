@@ -15,14 +15,29 @@ def setup_module():
 
 def test_index():
     # Given
-    expected = b'Hello, world!'
-    path = '/'
+    expected1 = b'Weather app'
+    expected2 = b'Speed&'
+    expected3 = b'Speed&'
+    expected4 = b'Speed&'
+    expected5 = b'Speed&'
+    path1 = '/'
+    path2 = '/?attribute=speed&timeIntervallType=year&timeArgument=["1999"]'
+    path3 = '/?attribute=speed&timeIntervallType=months&timeArgument=["07"]'
+    path4 = '/?attribute=speed&timeIntervallType=months&timeArgument=["2001-07"]'
+    path5 = '/?attribute=speed&timeIntervallType=intervall&timeArgument=["1999-07-23","2010-05-20"]'
 
     # When
-    response = client.get(path)
-
+    response1 = client.get(path1)
+    response2 = client.get(path2)
+    response3 = client.get(path3)
+    response4 = client.get(path4)
+    response5 = client.get(path5)
     # Then
-    assert response.data == expected
+    assert expected1 in response1.data
+    assert expected2 in response2.data
+    assert expected3 in response3.data
+    assert expected4 in response4.data
+    assert expected5 in response5.data
 
 
 def test_file_upload():
