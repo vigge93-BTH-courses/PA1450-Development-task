@@ -1,6 +1,6 @@
 $(function () {
     $('.intervallSelector').on('click', updateSelectors)
-    $(window).on('load', function() {
+    $(window).on('load', function () {
         document.getElementById('date').click();
     });
 })

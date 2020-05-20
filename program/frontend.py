@@ -72,7 +72,10 @@ def index():
             date_start = date_start.strftime('%Y-%m-%d')
             date_end = date_end.strftime('%Y-%m-%d')
             filters['timeArgument'] = [date_start, date_end]
-    data_points = backend.get_data(filters)
+    if filters:
+        data_points = backend.get_data(filters)
+    else:
+        data_points = []
 
     if not current_attribute:
         current_attribute = attributes[0]
@@ -90,37 +93,40 @@ def index():
                 res[attr] = [dp[attr]]
     data_points = ColumnDataSource(res)
 
-    p = figure(
-        x_axis_label='Time',
-        y_axis_label=current_attribute['displayName'],
-        x_axis_type='datetime',
-        y_range=[min(0, min(data_points.data['value'])-1),
-                 max(data_points.data['value'])+1]
-    )
-
-    p.xaxis.ticker = DaysTicker(days=list(range(1, 32)))
-    p.xaxis.formatter = formatters.DatetimeTickFormatter(days="%Y-%m-%d")
-
-    p.line(x='date', y='value', line_width=2, source=data_points)
-    p.circle(x='date', y='value', size=10, source=data_points)
-
-    p.add_tools(
-        HoverTool(
-            tooltips=[
-                ('Datetime', '@date{%Y-%m-%d %H:%M:%S}'),
-                ('Value', '@value @unit')
-            ],
-            formatters={
-                '@date': 'datetime'
-            },
-            mode='vline'
+    if data_points.data:
+        p = figure(
+            x_axis_label='Time',
+            y_axis_label=current_attribute['displayName'],
+            x_axis_type='datetime',
+            y_range=[min(0, min(data_points.data['value'])-1),
+                     max(data_points.data['value'])+1]
         )
-    )
 
-    js_resources = INLINE.render_js()
-    css_resources = INLINE.render_css()
+        p.xaxis.ticker = DaysTicker(days=list(range(1, 32)))
+        p.xaxis.formatter = formatters.DatetimeTickFormatter(days="%Y-%m-%d")
 
-    script, div = components(p)
+        p.line(x='date', y='value', line_width=2, source=data_points)
+        p.circle(x='date', y='value', size=10, source=data_points)
+
+        p.add_tools(
+            HoverTool(
+                tooltips=[
+                    ('Datetime', '@date{%Y-%m-%d %H:%M:%S}'),
+                    ('Value', '@value @unit')
+                ],
+                formatters={
+                    '@date': 'datetime'
+                },
+                mode='vline'
+            )
+        )
+
+        js_resources = INLINE.render_js()
+        css_resources = INLINE.render_css()
+
+        script, div = components(p)
+    else:
+        js_resources, css_resources, script, div = '', '', '', ''
 
     return render_template('index.html',
                            attributes=attributes,
