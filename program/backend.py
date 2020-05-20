@@ -19,7 +19,7 @@ def file_reader(data_file):
 
 
 def process_file(file):
-    """Insert valeus from uploaded file."""
+    """Insert values from uploaded file."""
     check = ext_check(file)
     db = access_db()
     c = db.cursor()
@@ -68,8 +68,6 @@ def insert_values_to_datapoints_table(table, data, c, attribute_id):
     for row in data:
         if len(row) != 0 and row[0] == "Datum" and row[1] == "Tid (UTC)":
             date_index = data.index(row)
-        else:
-            return "Some expected data does not exist"
     for row in range((date_index + 1), len(data)):
         values_to_add = ""
         sql_insert = """ INSERT INTO """+table+"""
@@ -155,15 +153,6 @@ def close_db(db):
     db.close()
     print("Successfully closed connection")
 
-
-def create_table(db, create_table_sql, c):
-    """Insert data into database."""
-    try:
-        c.execute(create_table_sql)
-    except sqlite3.Error as error:
-        print(error)
-
-
 def initialize_table(db, c):
     """Create table."""
     sql_create_datapoints_table = """CREATE TABLE IF NOT EXISTS Datapoints (
@@ -181,14 +170,9 @@ def initialize_table(db, c):
         Unit text
         );"""
     c.execute("""PRAGMA foreign_keys = ON;""")
-    attributes_table = create_table(db, sql_create_attributes_table, c)
-    datapoints_table = create_table(db, sql_create_datapoints_table, c)
+    attributes_table = c.execute(sql_create_attributes_table)
+    datapoints_table = c.execute(sql_create_datapoints_table)
     db.commit()
-    add_data_to_tables(attributes_table, datapoints_table, c, db)
-
-
-def add_data_to_tables(attributes_table, datapoints_table, c, db):
-    """Add data to tables."""
     list_of_values = ext_check(data_file)
     attribute_id = insert_values_to_attribute_table(
         "Attributes", list_of_values, c)
@@ -196,7 +180,6 @@ def add_data_to_tables(attributes_table, datapoints_table, c, db):
         "Datapoints", list_of_values, c, attribute_id)
     db.commit()
     close_db(db)
-
 
 def initiate_database():
     """Initialize database if it does not exist, otherwise creates it."""
