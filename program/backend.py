@@ -3,11 +3,11 @@ import sqlite3
 import csv
 import sys
 import os
-from datetime import date
+import datetime
+import unidecode
+
 
 data_file = "data.csv"
-dic = {"timeArgument": ["2020-01-01", "2020-01-02"],
-       "timeIntervallType": "TIME_INTERVALL", "Argument": "nederbordsmangd"}
 
 
 def file_reader(data_file):
@@ -40,12 +40,13 @@ def process_file(file):
     db = access_db()
     c = db.cursor()
     if type(data) is list:
-        attribute_id = insert_values_to_attribute_table("Attributes", data, c)
-        insert_values_to_datapoints_table("Datapoints", data, c, attribute_id)
+        attribute_id = insert_values_to_attribute_table(data, c)
+        insert_values_to_datapoints_table(data, c, attribute_id)
+        close_db(db)
         return "File uploaded succesfully!"
     else:
+        close_db(db)
         return data
-    close_db(db)
 
 
 def get_attributes():
@@ -65,9 +66,8 @@ def get_data(filters):
     """Get data from databases using filters."""
     db = access_db()
     c = db.cursor()
-    sql_get_id = """SELECT ID, Unit FROM Attributes WHERE Name = '""" + \
-        filters["Argument"]+"""'"""
-    data = c.execute(sql_get_id)
+    data = c.execute(
+        "SELECT ID, Unit FROM Attributes WHERE Name = ?", (filters["Argument"],))
     for bit in data:
         attr_id = bit[0]
         unit = bit[1]
@@ -81,9 +81,9 @@ def get_data(filters):
         end_date = end_date.split("-")
         end_date[1] = int(end_date[1])
         end_date[2] = int(end_date[2])
-        sql_get_data = """SELECT * FROM Datapoints WHERE Year BETWEEN '"""+str(start_date[0])+"""'AND '"""+str(end_date[0])+"""' AND Month BETWEEN '"""+str(
-            start_date[1])+"""' AND '"""+str(end_date[1])+"""' AND Day BETWEEN '"""+str(start_date[2])+"""' AND '"""+str(end_date[2])+"""' AND AttributeID = """+str(attr_id)+""";"""
-        datapoints_to_return = c.execute(sql_get_data)
+        sql_get_data = "SELECT * FROM Datapoints WHERE Year BETWEEN ? AND ? AND Month BETWEEN ? AND ? AND Day BETWEEN ? AND ? AND AttributeID = ?;"
+        datapoints_to_return = c.execute(sql_get_data, (str(start_date[0]), str(end_date[0]), str(
+            start_date[1]), str(end_date[1]), str(start_date[2]), str(end_date[2]), str(attr_id)))
         data_to_return = []
         for data in datapoints_to_return:
             data_to_return.append({"id": data[0],
@@ -99,9 +99,9 @@ def get_data(filters):
     elif filters["timeIntervallType"] == "MONTH":
         month = dates[0]
         month = int(month)
-        sql_get_data = """SELECT * FROM Datapoints WHERE Month = '""" + \
-            str(month)+"""' AND AttributeID = '"""+str(attr_id)+"""';"""
-        datapoints_to_return = c.execute(sql_get_data)
+        sql_get_data = """SELECT * FROM Datapoints WHERE Month = ? AND AttributeID = ?;"""
+        datapoints_to_return = c.execute(
+            sql_get_data, (str(month), str(attr_id)))
         data_to_return = []
         for data in datapoints_to_return:
             data_to_return.append({"id": data[0],
@@ -117,7 +117,7 @@ def get_data(filters):
     close_db(db)
 
 
-def insert_values_to_datapoints_table(table, data, c, attribute_id):
+def insert_values_to_datapoints_table(data, c, attribute_id):
     """Seperate string of data into comma seperated values.
     and add to datapoint table.
     """
@@ -127,33 +127,14 @@ def insert_values_to_datapoints_table(table, data, c, attribute_id):
             date_index = data.index(row)
     for row in range((date_index + 1), len(data)):
         values_to_add = ""
-        sql_insert = """ INSERT INTO """+table+"""
-        (Year, Month, Day, Time, Value, AttributeID)
-        VALUES ("""
-        for i in data[row][0]:
-            if i == "-":
-                sql_insert += ","
-            else:
-                sql_insert += i
-        sql_insert += ","
-        for i in range(1, 3):
-            if i == 1:
-                for i in data[row][1]:
-                    if i != ":":
-                        sql_insert += i
-                    else:
-                        break
-            else:
-                sql_insert += data[row][i]
-            if i != 2:
-                sql_insert += ","
-        sql_insert += ","
-        sql_insert += str(attribute_id)
-        sql_insert += ");"
-        c.execute(sql_insert)
+        date = datetime.datetime.fromisoformat(data[row][0])
+        time = datetime.datetime.strptime(data[row][1], '%H:%M:%S')
+        sql_insert = " INSERT INTO Datapoints(Year, Month, Day, Time, Value, AttributeID) VALUES ( ?, ?, ?, ?, ?, ?)"
+        c.execute(sql_insert, (date.year, date.month, date.day,
+                               time.hour, data[row][2], str(attribute_id)))
 
 
-def insert_values_to_attribute_table(table, data, c):
+def insert_values_to_attribute_table(data, c):
     """Check for special characters and replace with english alphabet
     (if necessary) and add to datapoint table."""
     parameter_index_column = 0
@@ -169,23 +150,8 @@ def insert_values_to_attribute_table(table, data, c):
         if len(row) != 0 and "Enhet" in row:
             attribute_index_column = row.index("Enhet")
             attribute_index_row = data.index(row)
-    sql_insert = """ INSERT INTO """+table+"""(Name, DisplayName, Unit)
-        VALUES ("""
-    for i in data[parameter_index_row + 1][parameter_index_column]:
-        if i == "Ä" or i == "ä" or i == "Å" or i == "å":
-            string_to_add += "a"
-        elif i == "Ö" or i == "ö":
-            string_to_add += "o"
-        else:
-            string_to_add += i
-    string_to_add = string_to_add.lower()
-    sql_insert += ('"' + string_to_add + '"' + ',')
-    sql_insert += ('"'+data[parameter_index_row + 1]
-                   [parameter_index_column] + '"' + ',')
-    sql_insert += ('"' + data[attribute_index_row + 1]
-                   [attribute_index_column]+'"')
-    sql_insert += ");"
-    c.execute(sql_insert)
+    sql_insert = " INSERT INTO Attributes (Name, DisplayName, Unit) VALUES ( ?, ?, ?)"
+    c.execute(sql_insert, (unidecode.unidecode(data[parameter_index_row + 1][parameter_index_column]).lower(), data[parameter_index_row + 1][parameter_index_column], data[attribute_index_row + 1][attribute_index_column]))
     return c.lastrowid
 
 
@@ -207,8 +173,8 @@ def close_db(db):
     db.close()
 
 
-def initialize_table(db, c):
-    """Create table."""
+def initialize_database():
+    """Creates database (if it does not exist)."""
     sql_create_datapoints_table = """CREATE TABLE IF NOT EXISTS Datapoints (
         ID integer PRIMARY KEY,
         Year text,
@@ -223,24 +189,17 @@ def initialize_table(db, c):
         DisplayName text,
         Unit text
         );"""
-    c.execute("""PRAGMA foreign_keys = ON;""")
+    db = access_db()
+    c = db.cursor()
+    c.execute("PRAGMA foreign_keys = ON;")
     attributes_table = c.execute(sql_create_attributes_table)
     datapoints_table = c.execute(sql_create_datapoints_table)
     db.commit()
     list_of_values = file_reader(data_file)
-    attribute_id = insert_values_to_attribute_table(
-        "Attributes", list_of_values, c)
-    insert_values_to_datapoints_table(
-        "Datapoints", list_of_values, c, attribute_id)
+    attribute_id = insert_values_to_attribute_table(list_of_values, c)
+    insert_values_to_datapoints_table(list_of_values, c, attribute_id)
     db.commit()
     close_db(db)
-
-
-def initiate_database():
-    """Initialize database if it does not exist, otherwise creates it."""
-    db = access_db()
-    c = db.cursor()
-    initialize_table(db, c)
 
 
 if __name__ == '__main__':
