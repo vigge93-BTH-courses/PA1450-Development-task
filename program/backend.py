@@ -16,7 +16,6 @@ def file_reader(data_file):
     if ext:
         with open(data_file, 'r', encoding='utf-8') as csv_file:
             reader = csv.reader(csv_file, delimiter=';')
-
             data = []
             for row in reader:
                 data.append(row)
@@ -66,8 +65,7 @@ def get_data(filters):
     """Get data from databases using filters."""
     db = access_db()
     c = db.cursor()
-    data = c.execute(
-        "SELECT ID, Unit FROM Attributes WHERE Name = ?", (filters["Argument"],))
+    data = c.execute("SELECT ID, Unit FROM Attributes WHERE Name = ?", (filters["Argument"],))
     for bit in data:
         attr_id = bit[0]
         unit = bit[1]
@@ -99,7 +97,7 @@ def get_data(filters):
     elif filters["timeIntervallType"] == "MONTH":
         month = dates[0]
         month = int(month)
-        sql_get_data = """SELECT * FROM Datapoints WHERE Month = ? AND AttributeID = ?;"""
+        sql_get_data = "SELECT * FROM Datapoints WHERE Month = ? AND AttributeID = ?;"
         datapoints_to_return = c.execute(
             sql_get_data, (str(month), str(attr_id)))
         data_to_return = []
@@ -126,12 +124,10 @@ def insert_values_to_datapoints_table(data, c, attribute_id):
         if len(row) != 0 and row[0] == "Datum" and row[1] == "Tid (UTC)":
             date_index = data.index(row)
     for row in range((date_index + 1), len(data)):
-        values_to_add = ""
         date = datetime.datetime.fromisoformat(data[row][0])
         time = datetime.datetime.strptime(data[row][1], '%H:%M:%S')
-        sql_insert = " INSERT INTO Datapoints(Year, Month, Day, Time, Value, AttributeID) VALUES ( ?, ?, ?, ?, ?, ?)"
-        c.execute(sql_insert, (date.year, date.month, date.day,
-                               time.hour, data[row][2], str(attribute_id)))
+        sql_insert = "INSERT INTO Datapoints(Year, Month, Day, Time, Value, AttributeID) VALUES ( ?, ?, ?, ?, ?, ?)"
+        c.execute(sql_insert, (date.year, date.month, date.day, time.hour, data[row][2], str(attribute_id)))
 
 
 def insert_values_to_attribute_table(data, c):

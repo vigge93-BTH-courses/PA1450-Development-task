@@ -1,4 +1,4 @@
-from program.backend import file_reader, process_file, get_attributes, get_data, ext_check, insert_values_to_datapoints_table, insert_values_to_attribute_table, access_db, close_db, initialize_table, initiate_database 
+from program.backend import file_reader, process_file, get_attributes, get_data, ext_check, insert_values_to_datapoints_table, insert_values_to_attribute_table, access_db, close_db, initialize_database
 import os
 import tempfile
 
@@ -37,15 +37,6 @@ def test_file_upload():
     b.close()
 
 
-def test_initiate_database():
-    """Test initiate_database."""
-    # When
-    res1 = initiate_database()
-
-    # Then
-    assert os.path.isfile('instance\weather_data.db')
-
-
 def test_access_db():
     """Test access database."""
     # When
@@ -55,15 +46,13 @@ def test_access_db():
     assert os.path.isfile('instance\weather_data.db')
 
 
-def test_initialize_table():
-    """Test initialize table."""
+def test_initialize_database():
+    """Test initialize database."""
     # Given
     db = access_db()
     c = db.cursor()
     # When
-    table = initialize_table(db, c)
-    db = access_db()
-    c = db.cursor()
+    table = initialize_database()
     names = c.execute("SELECT name FROM sqlite_master WHERE type='table';")
     for name in names:
         res1 = name[0]
@@ -77,7 +66,7 @@ def test_get_attributes():
     res1 = get_attributes()
 
     # Then
-    assert type(res1) == dict
+    assert type(res1) == list
 
 
 def test_get_data():
@@ -105,7 +94,7 @@ def test_ext_check():
     res1 = ext_check(a)
 
     # Then
-    assert type(res1) == list
+    assert res1
 
 
 def test_close_db():
@@ -119,7 +108,6 @@ def test_close_db():
     try:
         res1 = db.cursor()
     except:
-        is_closed = True
-    
+        is_closed = True 
     # Then
     assert is_closed
