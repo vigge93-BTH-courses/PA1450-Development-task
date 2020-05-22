@@ -112,7 +112,7 @@ def index():
             HoverTool(
                 tooltips=[
                     ('Datetime', '@date{%Y-%m-%d %H:%M:%S}'),
-                    ('Value', '@value @unit')
+                    ('Value', '@value{0.0} @unit')
                 ],
                 formatters={
                     '@date': 'datetime'
