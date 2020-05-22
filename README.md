@@ -5,10 +5,11 @@
 ### Setting up python
 
 1. Open the application folder in Visual Studio Code.
-2. Install virtualenv by running `python -m pip install virtualenv` in the terminal.
-3. Create a new virtual environment by running `python -m virtualenv venv`
-4. To activate the environment in Visual Studio Code, open the command palette (<kbd>F1</kbd> ) and Select `Python: Select Interpreter`, and select the virtual environment.
-5. Install the required libraries by running `python -m pip install -r requirements.txt`
+2. Install virtualenv by running `python3 -m pip install virtualenv` in the terminal.
+3. Create a new virtual environment by running `python3 -m virtualenv venv`
+4. To activate the environment in Visual Studio Code, open the command palette (<kbd>F1</kbd> ) and Select `Python: Select Interpreter`, and select the virtual environment (The one with `venv` in the name).
+5. Open a new terminal window in VS Code.
+6. Install the required libraries by running `python -m pip install -r requirements.txt`
 
 ### Creating the database
 

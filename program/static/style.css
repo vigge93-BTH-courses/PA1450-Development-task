@@ -30,6 +30,7 @@ h1 {
 #graph {
   margin: auto;
   width: fit-content;
+  width: -moz-fit-content;
   margin-top: 1em;
   box-shadow: 0px 2px 8px #888888;
 }
@@ -39,12 +40,14 @@ h1 {
   margin: auto;
   margin-bottom: 0px;
   margin-top: 30px;
+  width: -moz-fit-content;
   width: fit-content;
 }
 
 #btncontainer {
   margin: auto;
   width: fit-content;
+  width: -moz-fit-content;
 }
 
 input {
