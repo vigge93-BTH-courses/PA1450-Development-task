@@ -203,6 +203,7 @@ def initialize_database():
     attribute_id = insert_values_to_attribute_table(list_of_values, c)
     insert_values_to_datapoints_table(list_of_values, c, attribute_id)
     db.commit()
+    print('Database successfully created!')
     close_db(db)
 
 
