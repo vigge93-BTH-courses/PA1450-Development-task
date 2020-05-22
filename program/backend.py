@@ -76,10 +76,12 @@ def get_data(filters):
     if filters["timeIntervallType"] == "TIME_INTERVALL":
         start_date = dates[0]
         start_date = start_date.split("-")
+        start_date[0] = int(start_date[0])
         start_date[1] = int(start_date[1])
         start_date[2] = int(start_date[2])
         end_date = dates[1]
         end_date = end_date.split("-")
+        end_date[0] = int(end_date[0])
         end_date[1] = int(end_date[1])
         end_date[2] = int(end_date[2])
         sql_get_data = """SELECT * FROM Datapoints WHERE (Year >= ? AND Month >= ? AND (Day >= ? OR Month != ? OR Year != ?))
@@ -104,7 +106,7 @@ def get_data(filters):
         month = int(month)
         sql_get_data = "SELECT * FROM Datapoints WHERE Month = ? AND AttributeID = ?;"
         datapoints_to_return = c.execute(
-            sql_get_data, (str(month), str(attr_id)))
+            sql_get_data, (month, attr_id))
         data_to_return = []
         for data in datapoints_to_return:
             data_to_return.append({"id": data[0],
@@ -179,10 +181,10 @@ def initialize_database():
     """Creates database (if it does not exist)."""
     sql_create_datapoints_table = """CREATE TABLE IF NOT EXISTS Datapoints (
         ID integer PRIMARY KEY,
-        Year text,
-        Month text,
-        Day text,
-        Time text,
+        Year integer,
+        Month integer,
+        Day integer,
+        Time integer,
         Value real,
         AttributeID integer);"""
     sql_create_attributes_table = """CREATE TABLE IF NOT EXISTS Attributes(
