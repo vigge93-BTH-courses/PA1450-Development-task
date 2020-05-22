@@ -153,15 +153,12 @@ def insert_values_to_attribute_table(data, c):
 
 def access_db():
     """Retrieve database."""
-    try:
-        db = sqlite3.connect(
-            'instance\\weather_data.db',
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        db.row_factory = sqlite3.Row
-        return db
-    except sqlite3.Error as error:
-        raise Exception
+    db = sqlite3.connect(
+        'instance\\weather_data.db',
+        detect_types=sqlite3.PARSE_DECLTYPES
+    )
+    db.row_factory = sqlite3.Row
+    return db
 
 
 def close_db(db):
