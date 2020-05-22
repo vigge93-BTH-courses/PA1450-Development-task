@@ -1,6 +1,8 @@
 $(function () {
     $('.intervallSelector').on('click', updateSelectors)
-    updateSelectors()
+    $(window).on('load', function () {
+        document.getElementById('date').click();
+    });
 })
 
 function updateSelectors() {
@@ -27,15 +29,15 @@ function generate_graph() {
         timeArgument = [document.getElementById("yearValue").value]
     } else if (document.getElementById("month").checked) {
         valid = document.getElementById("monthValue").checkValidity()
-        timeIntervallSelector = "month"
-        timeArgument = [document.getElementById("monthValue").value]
+        timeIntervallSelector = "months"
+        timeArgument = [document.getElementById("monthValue").value, ]
     } else if (document.getElementById("date").checked) {
         valid = document.getElementById("dateStart").checkValidity() && document.getElementById("dateEnd").checkValidity()
         timeIntervallSelector = "intervall"
         timeArgument = [document.getElementById("dateStart").value, document.getElementById("dateEnd").value]
     }
-    if (valid){
-        parameterString = "?attribute=" + attribute + "&timeIntervallType=" + timeIntervallSelector + "&timeArgument=" + timeArgument
+    if (valid) {
+        parameterString = "?attribute=" + attribute + "&timeIntervallType=" + timeIntervallSelector + "&timeArgument=" + JSON.stringify(timeArgument)
         window.location.assign('/' + parameterString)
     } else {
         alert("Dunce, invalid arguments!")

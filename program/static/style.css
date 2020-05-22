@@ -47,6 +47,10 @@ h1 {
   width: fit-content;
 }
 
+input {
+  box-shadow: 0px 2px 2px #888888;
+}
+
 .btn {
   border: none;
   color: white;
@@ -58,6 +62,11 @@ h1 {
   font-size: 14px;
   box-shadow: 0px 2px 8px #888888;
   border-radius: 25px
+}
+
+.fileupload {
+  font-family: 'Raleway', sans-serif;
+  margin-left: 1em;
 }
 
 #dates {
@@ -163,4 +172,11 @@ tr:nth-child(odd) {
   height: 8px;
   border-radius: 50%;
   background: white;
+}
+
+.flash {
+  margin: 1em 0;
+  padding: 1em;
+  background: #cae6f6;
+  border: 1px solid #377ba8;
 }
