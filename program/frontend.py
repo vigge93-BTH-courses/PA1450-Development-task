@@ -52,7 +52,7 @@ def index():
         time_argument = json.loads(request.args['timeArgument'])
         if intervallType == 'months' and len(time_argument[0]) == 2:
             filters['timeIntervallType'] = 'MONTH'
-            filters['timeArgument'] = [time_argument, ]
+            filters['timeArgument'] = [time_argument[0]]
         else:
             filters['timeIntervallType'] = 'TIME_INTERVALL'
             if intervallType == 'year':

@@ -35,12 +35,14 @@ def ext_check(file):
 
 def process_file(file):
     """Insert values from uploaded file."""
+    file = os.path.join('instance', file)
     data = file_reader(file)
     db = access_db()
     c = db.cursor()
     if type(data) is list:
         attribute_id = insert_values_to_attribute_table(data, c)
         insert_values_to_datapoints_table(data, c, attribute_id)
+        db.commit()
         close_db(db)
         return "File uploaded succesfully!"
     else:
@@ -65,7 +67,8 @@ def get_data(filters):
     """Get data from databases using filters."""
     db = access_db()
     c = db.cursor()
-    data = c.execute("SELECT ID, Unit FROM Attributes WHERE Name = ?", (filters["Argument"],))
+    data = c.execute(
+        "SELECT ID, Unit FROM Attributes WHERE Name = ?", (filters["Argument"],))
     for bit in data:
         attr_id = bit[0]
         unit = bit[1]
@@ -79,16 +82,18 @@ def get_data(filters):
         end_date = end_date.split("-")
         end_date[1] = int(end_date[1])
         end_date[2] = int(end_date[2])
-        sql_get_data = "SELECT * FROM Datapoints WHERE Year BETWEEN ? AND ? AND Month BETWEEN ? AND ? AND Day BETWEEN ? AND ? AND AttributeID = ?;"
-        datapoints_to_return = c.execute(sql_get_data, (str(start_date[0]), str(end_date[0]), str(
-            start_date[1]), str(end_date[1]), str(start_date[2]), str(end_date[2]), str(attr_id)))
+        sql_get_data = """SELECT * FROM Datapoints WHERE (Year >= ? AND Month >= ? AND (Day >= ? OR Month != ? OR Year != ?))
+                         AND (Year < ? OR (Year = ? AND Month <= ? AND (Day <= ? OR Month != ?))) AND AttributeID = ?;"""
+        datapoints_to_return = c.execute(sql_get_data, (start_date[0], start_date[1],
+                                                        start_date[2], start_date[1], start_date[0],
+                                                        end_date[0], end_date[0], end_date[1], end_date[2], end_date[1], attr_id))
         data_to_return = []
         for data in datapoints_to_return:
             data_to_return.append({"id": data[0],
-                                   "year": data[1],
-                                   "month": data[2],
-                                   "day": data[3],
-                                   "time": data[4],
+                                   "year": int(data[1]),
+                                   "month": int(data[2]),
+                                   "day": int(data[3]),
+                                   "time": int(data[4]),
                                    "value": data[5],
                                    "unit": unit
                                    })
@@ -103,10 +108,10 @@ def get_data(filters):
         data_to_return = []
         for data in datapoints_to_return:
             data_to_return.append({"id": data[0],
-                                   "year": data[1],
-                                   "month": data[2],
-                                   "day": data[3],
-                                   "time": data[4],
+                                   "year": int(data[1]),
+                                   "month": int(data[2]),
+                                   "day": int(data[3]),
+                                   "time": int(data[4]),
                                    "value": data[5],
                                    "unit": unit
                                    })
@@ -127,7 +132,8 @@ def insert_values_to_datapoints_table(data, c, attribute_id):
         date = datetime.datetime.fromisoformat(data[row][0])
         time = datetime.datetime.strptime(data[row][1], '%H:%M:%S')
         sql_insert = "INSERT INTO Datapoints(Year, Month, Day, Time, Value, AttributeID) VALUES ( ?, ?, ?, ?, ?, ?)"
-        c.execute(sql_insert, (date.year, date.month, date.day, time.hour, data[row][2], str(attribute_id)))
+        c.execute(sql_insert, (date.year, date.month, date.day,
+                               time.hour, data[row][2], str(attribute_id)))
 
 
 def insert_values_to_attribute_table(data, c):
@@ -142,12 +148,15 @@ def insert_values_to_attribute_table(data, c):
         if len(row) != 0 and "Parameternamn" in row:
             parameter_index_column = row.index("Parameternamn")
             parameter_index_row = data.index(row)
+            break
     for row in data:
         if len(row) != 0 and "Enhet" in row:
             attribute_index_column = row.index("Enhet")
             attribute_index_row = data.index(row)
+            break
     sql_insert = " INSERT INTO Attributes (Name, DisplayName, Unit) VALUES ( ?, ?, ?)"
-    c.execute(sql_insert, (unidecode.unidecode(data[parameter_index_row + 1][parameter_index_column]).lower(), data[parameter_index_row + 1][parameter_index_column], data[attribute_index_row + 1][attribute_index_column]))
+    c.execute(sql_insert, (unidecode.unidecode(data[parameter_index_row + 1][parameter_index_column]).lower(
+    ), data[parameter_index_row + 1][parameter_index_column], data[attribute_index_row + 1][attribute_index_column]))
     return c.lastrowid
 
 
